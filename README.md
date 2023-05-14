@@ -13,9 +13,9 @@ JetPack 'utubo/vim-yomigana'
 
 mecabは各自でインストールしてください
 
-### 使い方
+## 使い方
 
-#### キーマップ
+### キーマップ
 - `<Plug>(yomigana-to-kata)`, `<Plug>(yomigana-to-hira)`  
   現在行またはビジュアルモードの選択範囲をカタカナまたはひらがなに置換します
 
@@ -27,7 +27,7 @@ xnoremap <Leader>K <Plug>(yomigana-to-kata)
 xnoremap <Leader>H <Plug>(yomigana-to-hira)
 ```
 
-#### 関数
+### 関数
 
 - `yomigana#GetKata({文字列})`, `yomigana#GetHira({文字列})`  
   文字列の読みをカタカナまたはひらがなで返します  
