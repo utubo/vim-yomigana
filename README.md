@@ -31,7 +31,7 @@ xnoremap <Leader>H <Plug>(yomigana-to-hira)
 
 - `yomigana#GetKata({文字列})`, `yomigana#GetHira({文字列})`  
   文字列の読みをカタカナまたはひらがなで返します  
-  例えば、以下のようにすることでファイル全体をひらがなにできます  
+  例えば、以下のようにすることでファイル全体をひらがなにできます(処理中はvimが固まります)  
   ```vimscript
   :keepp %s/.*/\=yomigana#GetHira(submatch(0))/
   ```
