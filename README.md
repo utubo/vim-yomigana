@@ -16,7 +16,7 @@ mecabは各自でインストールしてください
 ### 使い方
 
 #### キーマップ
-- `&lt;Plug&gt;(yomigana-to-kata)`, `&lt;Plug&gt;(yomigana-to-hira)`  
+- `<Plug>(yomigana-to-kata)`, `<Plug>(yomigana-to-hira)`  
   現在行またはビジュアルモードの選択範囲をカタカナまたはひらがなに置換します
 
 - デフォルト
@@ -33,6 +33,6 @@ xnoremap <Leader>H <Plug>(yomigana-to-hira)
   文字列の読みをカタカナまたはひらがなで返します  
   例えば、以下のようにすることでファイル全体をひらがなにできます  
   ```vimscript
-  :%s/.*/\=yomigana#GetHira(submatch(0))
+  :%s/.*/\=yomigana#GetHira(submatch(0))/g
   ```
 
