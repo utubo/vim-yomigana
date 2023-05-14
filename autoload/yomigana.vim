@@ -19,7 +19,7 @@ def KataToHira(kana: string): string
 enddef
 
 export def GetKata(str: string): string
-  const mecab = get(g:, 'yomi', { })->get('mecab', 'mecab')
+  const mecab = get(g:, 'yomigana', { })->get('mecab', 'mecab')
   var lines = []
   for line in str->split("\n", 1)
     if line->trim() ==# ''
