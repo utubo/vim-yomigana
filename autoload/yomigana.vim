@@ -22,13 +22,12 @@ export def GetKata(str: string): string
   const mecab = get(g:, 'yomi', { })->get('mecab', 'mecab')
   var lines = []
   for line in str->split("\n", 1)
-    if str->trim() ==# ''
+    if line->trim() ==# ''
       lines += [line]
       continue
     endif
-    const escaped = line->escape('"\')
-    const cmd = $'echo "{escaped}" | {mecab} -E ""'
-    const mecab_result = system(cmd)->split("\n")
+    const cmd = $'{mecab} -E ""'
+    const mecab_result = system(cmd, line)->split("\n")
     if v:shell_error !=# 0
       throw $'mecabの実行に失敗しました: `{cmd}`'
     endif
@@ -37,10 +36,10 @@ export def GetKata(str: string): string
     for m in mecab_result
       const yomi = get(m->split(','), 7, '*')
       if yomi !=# '*'
-        const kanji = m[0]->substitute('\s.*', '', '')
-        const p = rest->stridx(kanji) - 1
-        new_line ..= (p ==# - 1 ? '' : rest[0 : p]) .. yomi
-        rest = rest[p + len(kanji) : ]
+        const kanji = m->substitute('\s.*', '', '')
+        const a = rest->split(kanji, 1)
+        new_line ..= a[0] .. yomi
+        rest = a[1 : ]->join(kanji)
       endif
     endfor
     new_line ..= rest
