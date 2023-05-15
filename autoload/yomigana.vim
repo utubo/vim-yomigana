@@ -54,3 +54,29 @@ export def GetHira(str: string): string
   return str->GetKata()->KataToHira()
 enddef
 
+def ToYomigana(getYomigana: string)
+  if !visualmode()
+    execute "normal v\<Esc>"
+  endif
+  const save_c = getpos(".")
+  const save_s = getpos("'<")
+  const save_e = getpos("'>")
+  setpos("'<", getpos("'["))
+  setpos("'>", getpos("']"))
+  try
+    execute $':''<,''>s/\(\(\%V.\)\+\)/\=yomigana#{getYomigana}(submatch(1))/'
+  finally
+    setpos("'<", save_s)
+    setpos("'>", save_e)
+    setpos(".", save_c)
+  endtry
+enddef
+
+export def ToKata(a: any)
+  ToYomigana('GetKata')
+enddef
+
+export def ToHira(a: any)
+  ToYomigana('GetHira')
+enddef
+
