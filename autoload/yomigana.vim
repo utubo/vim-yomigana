@@ -19,14 +19,13 @@ def KataToHira(kana: string): string
 enddef
 
 export def GetKata(str: string): string
-  const mecab = get(g:, 'yomigana', { })->get('mecab', 'mecab')
+  const cmd = get(g:, 'yomigana', { })->get('mecab', 'mecab')
   var lines = []
   for line in str->split("\n", 1)
     if line->trim() ==# ''
       lines += [line]
       continue
     endif
-    const cmd = $'{mecab} -E ""'
     const mecab_result = system(cmd, line)->split("\n")
     if v:shell_error !=# 0
       throw $'mecabの実行に失敗しました: `{cmd}`'
@@ -34,8 +33,12 @@ export def GetKata(str: string): string
     var new_line = []
     var start = 0
     for m in mecab_result
-      const kanji = m->matchstr('^\S\+')
-      const yomi = get(m->split(','), 7, '*')
+      const csv = m->split(',')
+      if len(csv) <= 1
+        break # EOS
+      endif
+      const kanji = csv[0]->matchstr('^\S\+')
+      const yomi = csv->get(7, '*')
       const p = line->stridx(kanji, start)
       new_line += [line->strpart(start, p - start)]
       new_line += [yomi ==# '*' ? kanji : yomi]
