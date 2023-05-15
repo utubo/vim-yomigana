@@ -34,13 +34,12 @@ export def GetKata(str: string): string
     var new_line = []
     var start = 0
     for m in mecab_result
+      const kanji = m->matchstr('^\S\+')
       const yomi = get(m->split(','), 7, '*')
-      if yomi !=# '*'
-        const kanji = m->substitute('\s.*', '', '')
-        const p = line->stridx(kanji, start)
-        new_line += [line->strpart(start, p - start) .. yomi]
-        start = p + len(kanji)
-      endif
+      const p = line->stridx(kanji, start)
+      new_line += [line->strpart(start, p - start)]
+      new_line += [yomi ==# '*' ? kanji : yomi]
+      start = p + len(kanji)
     endfor
     new_line += [line->strpart(start)]
     lines += [new_line->join('')]
