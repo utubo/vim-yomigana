@@ -31,19 +31,19 @@ export def GetKata(str: string): string
     if v:shell_error !=# 0
       throw $'mecabの実行に失敗しました: `{cmd}`'
     endif
-    var new_line = ''
-    var rest = line
+    var new_line = []
+    var start = 0
     for m in mecab_result
       const yomi = get(m->split(','), 7, '*')
       if yomi !=# '*'
         const kanji = m->substitute('\s.*', '', '')
-        const a = rest->split(kanji, 1)
-        new_line ..= a[0] .. yomi
-        rest = a[1 : ]->join(kanji)
+        const p = line->stridx(kanji, start)
+        new_line += [line->strpart(start, p - start) .. yomi]
+        start = p + len(kanji)
       endif
     endfor
-    new_line ..= rest
-    lines += [new_line]
+    new_line += [line->strpart(start)]
+    lines += [new_line->join('')]
   endfor
   return lines->join("\n")
 enddef
