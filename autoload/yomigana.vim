@@ -9,16 +9,16 @@ const kata_list = ('ァアィイゥウェエォオカガキギクグケゲコゴ
   'ナニヌネノハバパヒビピフブプヘベペホボポ' ..
   'マミムメモャヤュユョヨラリルレロヮワヰヱヲンヴ')->split('.\zs')
 
-def KataToHira(kana: string): string
-  var hira = []
-  for k in kana->split('.\zs')
-    const p = kata_list->index(k)
-    hira += [p ==# - 1 ? k : hira_list[p]]
+def ConvChars(src: string, from_chars: list<string>, to_chars: list<string>): string
+  var dest = []
+  for c in src->split('.\zs')
+    const p = from_chars->index(c)
+    dest += [p ==# - 1 ? c : to_chars[p]]
   endfor
-  return hira->join('')
+  return dest->join('')
 enddef
 
-export def GetKata(str: string): string
+export def GetYomigana(str: string): string
   const cmd = get(g:, 'yomigana', { })->get('mecab', 'mecab')
   var lines = []
   for line in str->split("\n", 1)
@@ -50,8 +50,12 @@ export def GetKata(str: string): string
   return lines->join("\n")
 enddef
 
+export def GetKata(str: string): string
+  return str->GetYomigana()->ConvChars(hira_list, kata_list)
+enddef
+
 export def GetHira(str: string): string
-  return str->GetKata()->KataToHira()
+  return str->GetYomigana()->ConvChars(kata_list, hira_list)
 enddef
 
 def ToYomigana(getYomigana: string)
