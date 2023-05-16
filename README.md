@@ -2,7 +2,8 @@
 MeCabを利用して漢字をカタカナやひらがなに置換したりするプラグインです
 
 ## 必要なもの
-- vim9script (TODO: レガシーにも対応したほうがいいかなぁ？)
+- Vim9 script TODO: レガシーにも対応したほうがいいかなぁ？
+  (このREADME.mdに記載してあるVimscriptは全てVim9 Scriptです)
 - MeCab … パスを通しておいてください
 
 ## インストール
@@ -12,6 +13,16 @@ JetPack 'utubo/vim-yomigana'
 ```
 
 MeCabのインストール手順は割愛します🙇
+
+### Windowsの場合
+
+MeCabインストーラーをデフォルトのまま実施した場合は.vimrcに以下を追記してください
+```vimscript
+g:yomigana = {
+	mecab: 'cmd /C "C:\Program Files (x86)\MeCab\bin\mecab.exe"',
+	mecab_enc: 'sjis'
+}
+```
 
 ## 使い方
 
@@ -33,7 +44,6 @@ nnoremap <Leader>HH <Plug>(yomigana-to-hira)_
 
 デフォルトのキーマップを使いたくない場合は.vimrcに以下を記述してください
 ```vimscript
-vim9script
 g:yomigana = { default_key_mappings: false }
 ```
 
@@ -57,4 +67,9 @@ g:yomigana = { default_key_mappings: false }
 mecabコマンドの文字列です  
 デフォルトは`mecab`です  
 必要に応じて`/usr/local/bin/mecab`としたりオプションをつけたりしてください
+
+### `g:yomigana.mecab_enc`
+
+mecabコマンドのエンコードです  
+WindowでShit-jisを選択した場合は`sjis`を設定してください。
 

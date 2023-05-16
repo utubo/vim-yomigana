@@ -18,21 +18,31 @@ def ConvChars(src: string, from_chars: list<string>, to_chars: list<string>): st
   return dest->join('')
 enddef
 
+def System(cmd: string, input: string, enc: string = ''): string
+  if !enc
+    return system(cmd, input)
+  else
+    return system(cmd, input->iconv(&fenc, enc))->iconv(enc, &fenc)
+  endif
+enddef
+
 export def GetYomigana(str: string): string
-  const cmd = get(g:, 'yomigana', { })->get('mecab', 'mecab')
+  const config = get(g:, 'yomigana', { })
+  const cmd = config->get('mecab', 'mecab')
+  const enc = config->get('mecab_enc', '')
   var lines = []
   for line in str->split("\n", 1)
     if line->trim() ==# ''
       lines += [line]
       continue
     endif
-    const mecab_result = system(cmd, line)->split("\n")
+    const mecab_result = System(cmd, line, enc)
     if v:shell_error !=# 0
       throw $'mecabの実行に失敗しました: `{cmd}`'
     endif
     var new_line = []
     var start = 0
-    for m in mecab_result
+    for m in mecab_result->split("\n")
       const csv = m->split(',')
       if len(csv) <= 1
         break # EOS
