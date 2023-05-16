@@ -19,10 +19,18 @@ def ConvChars(src: string, from_chars: list<string>, to_chars: list<string>): st
 enddef
 
 def System(cmd: string, input: string, enc: string = ''): string
-  if !enc
+  if !enc || enc ==# &enc
     return system(cmd, input)
   else
-    return system(cmd, input->iconv(&enc, enc))->iconv(enc, &enc)
+    var i = input->iconv(&enc, enc)
+    if enc ==# 'sjis' || enc ==# 'cp932'
+      # SJISへの変換で`??`になっちゃうところは無視する
+      i = i
+        ->iconv(enc, &enc)
+        ->substitute('??', '', 'g')
+        ->iconv(&enc, enc)
+    endif
+    return system(cmd, i)->iconv(enc, &enc)
   endif
 enddef
 
