@@ -19,8 +19,8 @@ MeCabのインストール手順は割愛します🙇
 MeCabインストーラーをデフォルトのまま実施した場合は.vimrcに以下を追記してください
 ```vimscript
 g:yomigana = {
-	mecab: 'cmd /C "C:\Program Files (x86)\MeCab\bin\mecab.exe"',
-	mecab_enc: 'sjis'
+  mecab: 'cmd /C "C:\Program Files (x86)\MeCab\bin\mecab.exe"',
+  mecab_enc: 'sjis'
 }
 ```
 
