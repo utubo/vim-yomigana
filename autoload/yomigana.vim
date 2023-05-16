@@ -22,7 +22,7 @@ def System(cmd: string, input: string, enc: string = ''): string
   if !enc
     return system(cmd, input)
   else
-    return system(cmd, input->iconv(&fenc, enc))->iconv(enc, &fenc)
+    return system(cmd, input->iconv(&enc, enc))->iconv(enc, &enc)
   endif
 enddef
 
