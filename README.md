@@ -2,14 +2,14 @@
 MeCabを利用して漢字をカタカナやひらがなに置換したりするプラグインです
 
 ## 必要なもの
-- Vim9 script TODO: レガシーにも対応したほうがいいかなぁ？
-  (このREADME.mdに記載してあるVimscriptは全てVim9 Scriptです)
+- Vim9 script (TODO: レガシーにも対応したほうがいいかなぁ？)
 - MeCab … パスを通しておいてください
 
 ## インストール
-.vimrc例
+.vimrc例  
+※このREADME.mdに記載してあるVimscriptは全てVim9 Scriptです
 ```vimscript
-JetPack 'utubo/vim-yomigana'
+Jetpack 'utubo/vim-yomigana'
 ```
 
 MeCabのインストール手順は割愛します🙇
