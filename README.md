@@ -31,6 +31,12 @@ nnoremap <Leader>HH <Plug>(yomigana-to-hira)_
 
 例えば`<Leader>K$`で行末までカタカナに置換します
 
+デフォルトのキーマップを使いたくない場合は.vimrcに以下を記述してください
+```vimscript
+vim9script
+g:yomigana = { default_key_mappings: false }
+```
+
 ### 関数
 
 - `yomigana#GetKata({文字列})`, `yomigana#GetHira({文字列})`  
@@ -39,4 +45,16 @@ nnoremap <Leader>HH <Plug>(yomigana-to-hira)_
   ```vimscript
   :keepp %s/.*/\=yomigana#GetHira(submatch(0))/
   ```
+
+## オプション
+
+### `g:yomigana.default_key_mappings`
+
+`false`の場合、デフォルトのキーマッピングをしません
+
+### `g:yomigana.mecab`
+
+mecabコマンドの文字列です  
+デフォルトは`mecab`です  
+必要に応じて`/usr/local/bin/mecab`としたりオプションをつけたりしてください
 

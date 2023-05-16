@@ -5,6 +5,10 @@ xnoremap <silent> <Plug>(yomigana-to-hira) :keepp s/\(\(\%V.\)\+\)/\=yomigana#Ge
 nnoremap <silent> <Plug>(yomigana-to-kata) <ScriptCmd>&opfunc = 'yomigana#ToKata'<CR>g@
 nnoremap <silent> <Plug>(yomigana-to-hira) <ScriptCmd>&opfunc = 'yomigana#ToHira'<CR>g@
 
+if !(get(g:, 'yomigana', { })->get('default_key_mappings', true))
+  finish
+endif
+
 xnoremap <Leader>K <Plug>(yomigana-to-kata)
 xnoremap <Leader>H <Plug>(yomigana-to-hira)
 nnoremap <Leader>K <Plug>(yomigana-to-kata)
