@@ -22,15 +22,7 @@ def System(cmd: string, input: string, enc: string = ''): string
   if !enc || enc ==# &enc
     return system(cmd, input)
   else
-    var i = input->iconv(&enc, enc)
-    if enc ==# 'sjis' || enc ==# 'cp932'
-      # SJISへの変換で`??`になっちゃうところは無視する
-      i = i
-        ->iconv(enc, &enc)
-        ->substitute('??', '', 'g')
-        ->iconv(&enc, enc)
-    endif
-    return system(cmd, i)->iconv(enc, &enc)
+    return system(cmd, input->iconv(&enc, enc))->iconv(enc, &enc)
   endif
 enddef
 
@@ -55,6 +47,9 @@ export def GetYomigana(line: string): string
     const kanji = csv[0]->matchstr('^\S\+')
     const yomi = csv->get(7, '*')
     const p = line->stridx(kanji, start)
+    if p ==# -1 # &enc→sjisの変換で'??'になると見つからない
+      continue
+    endif
     new_line += [line->strpart(start, p - start)]
     new_line += [yomi ==# '*' ? kanji : yomi]
     start = p + len(kanji)
