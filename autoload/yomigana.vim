@@ -34,38 +34,33 @@ def System(cmd: string, input: string, enc: string = ''): string
   endif
 enddef
 
-export def GetYomigana(str: string): string
+export def GetYomigana(line: string): string
+  if line->trim() ==# ''
+    return line
+  endif
   const config = get(g:, 'yomigana', { })
   const cmd = config->get('mecab', 'mecab')
   const enc = config->get('mecab_enc', '')
-  var lines = []
-  for line in str->split("\n", 1)
-    if line->trim() ==# ''
-      lines += [line]
-      continue
+  const mecab_result = System(cmd, line, enc)
+  if v:shell_error !=# 0
+    throw $'mecabの実行に失敗しました: `{cmd}`'
+  endif
+  var new_line = []
+  var start = 0
+  for m in mecab_result->split("\n")
+    const csv = m->split(',')
+    if len(csv) <= 1
+      break # EOS
     endif
-    const mecab_result = System(cmd, line, enc)
-    if v:shell_error !=# 0
-      throw $'mecabの実行に失敗しました: `{cmd}`'
-    endif
-    var new_line = []
-    var start = 0
-    for m in mecab_result->split("\n")
-      const csv = m->split(',')
-      if len(csv) <= 1
-        break # EOS
-      endif
-      const kanji = csv[0]->matchstr('^\S\+')
-      const yomi = csv->get(7, '*')
-      const p = line->stridx(kanji, start)
-      new_line += [line->strpart(start, p - start)]
-      new_line += [yomi ==# '*' ? kanji : yomi]
-      start = p + len(kanji)
-    endfor
-    new_line += [line->strpart(start)]
-    lines += [new_line->join('')]
+    const kanji = csv[0]->matchstr('^\S\+')
+    const yomi = csv->get(7, '*')
+    const p = line->stridx(kanji, start)
+    new_line += [line->strpart(start, p - start)]
+    new_line += [yomi ==# '*' ? kanji : yomi]
+    start = p + len(kanji)
   endfor
-  return lines->join("\n")
+  new_line += [line->strpart(start)]
+  return new_line->join('')
 enddef
 
 export def GetKata(str: string): string
