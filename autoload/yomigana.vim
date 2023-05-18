@@ -45,7 +45,7 @@ export def GetYomigana(line: string): string
       break # EOS
     endif
     const kanji = csv[0]->matchstr('^\S\+')
-    const yomi = csv->get(7, '*')
+    const yomi = csv->get(-2, '*')
     const p = line->stridx(kanji, start)
     if p ==# -1 # &enc→sjisの変換で'??'になると見つからない
       continue
