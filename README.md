@@ -67,7 +67,7 @@ g:yomigana = { default_key_mappings: false }
 mecabコマンドの文字列です  
 デフォルトは`mecab`です  
 必要に応じて`/usr/local/bin/mecab`としたりオプションをつけたりしてください  
-vim-yomiganaはMeCabの結果について以下のフォーマットを想定しています  
+vim-yomiganaはMeCabの出力フォーマットは以下を想定しています  
 読みがなを取得できない場合は`-F`オプションで調節してください
 ```
 読み<Tab>*,*,*,*,*,*,*,よみ,*
@@ -79,4 +79,8 @@ vim-yomiganaはMeCabの結果について以下のフォーマットを想定し
 
 mecabコマンドのエンコードです  
 WindowでShit-jisを選択した場合は`sjis`を設定してください。
+
+### `g:yomigana.yomigana_index` (名前が微妙なので変更するかも…)
+MeCabの出力フォーマットの読みがなの位置です  
+デフォルトは`-2`(後ろから2番目)です
 

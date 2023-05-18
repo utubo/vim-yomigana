@@ -30,12 +30,9 @@ export def GetYomigana(line: string): string
   if line->trim() ==# ''
     return line
   endif
-  const config = get(g:, 'yomigana', { })
-  const cmd = config->get('mecab', 'mecab')
-  const enc = config->get('mecab_enc', '')
-  const mecab_result = System(cmd, line, enc)
+  const mecab_result = System(g:yomigana.mecab, line, g:yomigana.mecab_enc)
   if v:shell_error !=# 0
-    throw $'mecabの実行に失敗しました: `{cmd}`'
+    throw $'mecabの実行に失敗しました: `{g:yomigana.mecab}`'
   endif
   var new_line = []
   var start = 0
@@ -45,7 +42,7 @@ export def GetYomigana(line: string): string
       break # EOS
     endif
     const kanji = csv[0]->matchstr('^\S\+')
-    const yomi = csv->get(-2, '*')
+    const yomi = csv->get(g:yomigana.yomigana_index, '*')
     const p = line->stridx(kanji, start)
     if p ==# -1 # &enc→sjisの変換で'??'になると見つからない
       continue

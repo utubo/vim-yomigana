@@ -1,11 +1,18 @@
 vim9script
 
+g:yomigana = {
+  mecab: 'mecab',
+  mecab_enc: '',
+  yomigana_index: -2,
+  default_key_mappings: true
+}->extend(get(g:, 'yomigana', { }))
+
 xnoremap <silent> <Plug>(yomigana-to-kata) :keepp s/\(\(\%V.\)\+\)/\=yomigana#GetKata(submatch(1))/g<CR>
 xnoremap <silent> <Plug>(yomigana-to-hira) :keepp s/\(\(\%V.\)\+\)/\=yomigana#GetHira(submatch(1))/g<CR>
 nnoremap <silent> <Plug>(yomigana-to-kata) <ScriptCmd>&opfunc = 'yomigana#ToKata'<CR>g@
 nnoremap <silent> <Plug>(yomigana-to-hira) <ScriptCmd>&opfunc = 'yomigana#ToHira'<CR>g@
 
-if !(get(g:, 'yomigana', { })->get('default_key_mappings', true))
+if !g:yomigana.default_key_mappings
   finish
 endif
 
