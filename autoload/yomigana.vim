@@ -1,5 +1,8 @@
 vim9script
 
+################
+# ユーティリティ
+
 const hira_list = ('ぁあぃいぅうぇえぉおかがきぎくぐけげこご' ..
   'さざしじすずせぜそぞただちぢっつづてでとど' ..
   'なにぬねのはばぱひびぴふぶぷへべぺほぼぽ' ..
@@ -25,6 +28,9 @@ def System(cmd: string, input: string, enc: string = ''): string
     return system(cmd, input->iconv(&enc, enc))->iconv(enc, &enc)
   endif
 enddef
+
+################
+# 本体
 
 export def GetYomigana(line: string): string
   if line->trim() ==# ''
@@ -55,6 +61,9 @@ export def GetYomigana(line: string): string
   return new_line->join('')
 enddef
 
+################
+# API関数
+
 export def GetKata(str: string): string
   return str->GetYomigana()->ConvChars(hira_list, kata_list)
 enddef
@@ -63,29 +72,29 @@ export def GetHira(str: string): string
   return str->GetYomigana()->ConvChars(kata_list, hira_list)
 enddef
 
-def ToYomigana(getYomigana: string)
-  if !visualmode()
-    execute "normal! V\<Esc>"
+################
+# オペレーター
+
+def ToYomigana(getYomigana: string, otype: string)
+  const yomigana = $'\=yomigana#{getYomigana}(submatch(0))'
+  const [sy, sx] = getpos("'[")[1 : 2]
+  const [ey, ex] = getpos("']")[1 : 2]
+  if otype ==# 'line'
+    execute $':{sy},{ey}s/.*/{yomigana}/'
+    return
   endif
-  const save_c = getpos(".")
-  const save_s = getpos("'<")
-  const save_e = getpos("'>")
-  setpos("'<", getpos("'["))
-  setpos("'>", getpos("']"))
-  try
-    execute $':''<,''>s/\(\(\%V.\)\+\)/\=yomigana#{getYomigana}(submatch(1))/'
-  finally
-    setpos("'<", save_s)
-    setpos("'>", save_e)
-    setpos(".", save_c)
-  endtry
+  for i in range(sy, ey)
+    const s = i ==# sy ? $'\%{sx}c' : ''
+    const e = i ==# ey ? $'\%{ex}c.\?' : ''
+    setline(i, getline(i)->substitute($'{s}.*{e}', yomigana, ''))
+  endfor
 enddef
 
-export def ToKata(a: any)
-  ToYomigana('GetKata')
+export def ToKata(otype: string)
+  ToYomigana('GetKata', otype)
 enddef
 
-export def ToHira(a: any)
-  ToYomigana('GetHira')
+export def ToHira(otype: string)
+  ToYomigana('GetHira', otype)
 enddef
 
