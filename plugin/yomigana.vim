@@ -20,6 +20,6 @@ xnoremap <Leader>K <Plug>(yomigana-to-kata)
 xnoremap <Leader>H <Plug>(yomigana-to-hira)
 nnoremap <Leader>K <Plug>(yomigana-to-kata)
 nnoremap <Leader>H <Plug>(yomigana-to-hira)
-nnoremap <Leader>KK 0<Plug>(yomigana-to-kata)$
-nnoremap <Leader>HH 0<Plug>(yomigana-to-hira)$
+nnoremap <Leader>KK <Plug>(yomigana-to-kata)_
+nnoremap <Leader>HH <Plug>(yomigana-to-hira)_
 
