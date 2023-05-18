@@ -73,9 +73,9 @@ WindowでShit-jisを選択した場合は`sjis`を設定してください。
 MeCabの出力フォーマットの読みがなの位置です  
 デフォルトは`-2`(後ろから2番目)です
 
-### デフォルト
+### デフォルト設定値
 ```vimscript
-{
+g:yomigana = {
   mecab: 'mecab',
   mecab_enc: '',
   yomigana_index: -2,
@@ -85,7 +85,7 @@ MeCabの出力フォーマットの読みがなの位置です
 
 Windowsの場合
 ```vimscript
-{
+g:yomigana = {
   mecab: 'cmd /C "%ProgramFiles(x86)%\MeCab\bin\mecab.exe"',
   mecab_enc: 'sjis',
   yomigana_index: -2,
