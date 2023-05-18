@@ -75,26 +75,25 @@ enddef
 ################
 # オペレーター
 
-def ToYomigana(getYomigana: string, otype: string)
-  const yomigana = $'\=yomigana#{getYomigana}(submatch(0))'
+def Replace(otype: string, sub: string)
   const [sy, sx] = getpos("'[")[1 : 2]
   const [ey, ex] = getpos("']")[1 : 2]
   if otype ==# 'line'
-    execute $':{sy},{ey}s/.*/{yomigana}/'
+    execute $':{sy},{ey}s/.*/{sub}/'
     return
   endif
   for i in range(sy, ey)
     const s = i ==# sy ? $'\%{sx}c' : ''
     const e = i ==# ey ? $'\%{ex}c.\?' : ''
-    setline(i, getline(i)->substitute($'{s}.*{e}', yomigana, ''))
+    setline(i, getline(i)->substitute($'{s}.*{e}', sub, ''))
   endfor
 enddef
 
 export def ToKata(otype: string)
-  ToYomigana('GetKata', otype)
+  Replace(otype, '\=yomigana#GetKata(submatch(0))')
 enddef
 
 export def ToHira(otype: string)
-  ToYomigana('GetHira', otype)
+  Replace(otype, '\=yomigana#GetHira(submatch(0))')
 enddef
 
