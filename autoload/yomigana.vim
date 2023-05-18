@@ -84,7 +84,7 @@ def Replace(otype: string, sub: string)
   endif
   # 終了位置はマルチバイトを考慮する必要あり('w'と'iw'で位置が違う)
   const endline = getline(ey)
-  while matchstr(endline, $'\%{ex}c.') ==# '' && 0 < ex
+  while 1 < ex && matchstr(endline, $'\%{ex}c.') ==# ''
     ex -= 1
   endwhile
   # 置換実行
