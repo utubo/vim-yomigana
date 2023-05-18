@@ -14,16 +14,6 @@ Jetpack 'utubo/vim-yomigana'
 
 MeCabのインストール手順は割愛します🙇
 
-### Windowsの場合
-
-MeCabインストーラーをデフォルトのまま実施した場合は.vimrcに以下を追記してください
-```vimscript
-g:yomigana = {
-  mecab: 'cmd /C "C:\Program Files (x86)\MeCab\bin\mecab.exe"',
-  mecab_enc: 'sjis'
-}
-```
-
 ## 使い方
 
 ### キーマップ
@@ -65,7 +55,6 @@ g:yomigana = { default_key_mappings: false }
 ### `g:yomigana.mecab`
 
 mecabコマンドの文字列です  
-デフォルトは`mecab`です  
 必要に応じて`/usr/local/bin/mecab`としたりオプションをつけたりしてください  
 vim-yomiganaはMeCabの出力フォーマットは以下を想定しています  
 読みがなを取得できない場合は`-F`オプションで調節してください
@@ -83,4 +72,24 @@ WindowでShit-jisを選択した場合は`sjis`を設定してください。
 ### `g:yomigana.yomigana_index` (名前が微妙なので変更するかも…)
 MeCabの出力フォーマットの読みがなの位置です  
 デフォルトは`-2`(後ろから2番目)です
+
+### デフォルト
+```vimscript
+{
+  mecab: 'mecab',
+  mecab_enc: '',
+  yomigana_index: -2,
+  default_key_mappings: true
+}
+```
+
+Windowsの場合
+```vimscript
+{
+  mecab: 'cmd /C "%ProgramFiles(x86)%\MeCab\bin\mecab.exe"',
+  mecab_enc: 'sjis',
+  yomigana_index: -2,
+  default_key_mappings: true
+}
+```
 

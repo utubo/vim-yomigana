@@ -1,11 +1,16 @@
 vim9script
 
-g:yomigana = {
+var default = {
   mecab: 'mecab',
   mecab_enc: '',
   yomigana_index: -2,
   default_key_mappings: true
-}->extend(get(g:, 'yomigana', { }))
+}
+if has('win32')
+  default.mecab = executable('mecab.exe') ? 'cmd /C "mecab.exe"' : 'cmd /C "%ProgramFiles(x86)%\MeCab\bin\mecab.exe"'
+  default.mecab_enc = 'sjis'
+endif
+g:yomigana = default->extend(get(g:, 'yomigana', { }))
 
 xnoremap <silent> <Plug>(yomigana-to-kata) :keepp s/\(\(\%V.\)\+\)/\=yomigana#GetKata(submatch(1))/g<CR>
 xnoremap <silent> <Plug>(yomigana-to-hira) :keepp s/\(\(\%V.\)\+\)/\=yomigana#GetHira(submatch(1))/g<CR>
