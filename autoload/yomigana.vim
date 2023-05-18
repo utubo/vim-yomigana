@@ -76,15 +76,21 @@ enddef
 # オペレーター
 
 def Replace(otype: string, sub: string)
-  const [sy, sx] = getpos("'[")[1 : 2]
-  const [ey, ex] = getpos("']")[1 : 2]
+  var [sy, sx] = getpos("'[")[1 : 2]
+  var [ey, ex] = getpos("']")[1 : 2]
   if otype ==# 'line'
     execute $':{sy},{ey}s/.*/{sub}/'
     return
   endif
+  # 終了位置はマルチバイトを考慮する必要あり('w'と'iw'で位置が違う)
+  const endline = getline(ey)
+  while matchstr(endline, $'\%{ex}c.') ==# '' && 0 < ex
+    ex -= 1
+  endwhile
+  # 置換実行
   for i in range(sy, ey)
     const s = i ==# sy ? $'\%{sx}c' : ''
-    const e = i ==# ey ? $'\%{ex}c.\?' : ''
+    const e = i ==# ey ? $'\%{ex}c.' : ''
     setline(i, getline(i)->substitute($'{s}.*{e}', sub, ''))
   endfor
 enddef
