@@ -65,7 +65,7 @@ enddef
 
 def ToYomigana(getYomigana: string)
   if !visualmode()
-    execute "normal v\<Esc>"
+    execute "normal! V\<Esc>"
   endif
   const save_c = getpos(".")
   const save_s = getpos("'<")
