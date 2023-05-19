@@ -30,7 +30,7 @@ jobs:
           sudo apt-get update
           sudo add-apt-repository ppa:jonathonf/vim
           sudo apt-get install -y vim git
-          git clone --depth 1 --branch v1.5.4 --single-branch https://github.com/thinca/vim-themis /tmp/vim-themis
+          git clone --depth 1 --branch master --single-branch https://github.com/thinca/vim-themis /tmp/vim-themis
       - name: Run tests
         run: /tmp/vim-themis/bin/themis
         working-directory: $GITHUB_WORKSPACE
