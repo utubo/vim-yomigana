@@ -37,6 +37,8 @@ nnoremap <Leader>HH <Plug>(yomigana-to-hira)_
 g:yomigana = { default_key_mappings: false }
 ```
 
+TODO: `<Leader>K`は`カーソル位置単語のヘルプ表示`だから変えた方がいいかなぁ…
+
 ### 関数
 
 - `yomigana#GetKata({文字列})`, `yomigana#GetHira({文字列})`  
