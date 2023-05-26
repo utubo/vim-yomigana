@@ -132,7 +132,7 @@ KEY-MAPPINGS					*yomigana-key-mappings*
 	default mappings (global):
 		normal:	<Leader>H <Leader>HH
 		visual:	<Leader>H
-	指定範囲をカタカナに置換します
+	指定範囲をひらがなに置換します
 
 						*yomigana-default-key-mappings*
 
