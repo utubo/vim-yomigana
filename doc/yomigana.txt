@@ -1,0 +1,155 @@
+*yomigana.txt*	a summary
+
+Author  : utubo
+License : MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+==============================================================================
+CONTENTS					*yomigana-contents*
+
+INTRODUCTION			|yomigana-introduction|
+INSTALLATION			|yomigana-instllation|
+USAGE				|yomigana-usage|
+INTERFACE			|yomigana-interface|
+  VARIABLES			  |yomigana-variables|
+  KEY-MAPPINGS			  |yomigana-key-mappings|
+
+
+==============================================================================
+INTRODUCTION					*yomigana-introduction*
+
+MeCabを利用して漢字をカタカナやひらがなに置換したりするプラグインです
+
+Latest version:
+https://github.com/user/yomigana.vim
+
+
+==============================================================================
+INSTALLATION					*yomigana-instllation*
+
+
+.vimrc例
+※このREADME.mdに記載してあるVimscriptは全てVim9 Scriptです
+>
+	Jetpack 'utubo/vim-yomigana'
+<
+MeCabのインストール手順は割愛します🙇
+
+==============================================================================
+USAGE						*yomigana-usage*
+
+例えば、以下コマンドでファイル全体をひらがなにできます(処理中はvimが固まります)
+>
+	:keepp %s/.*/\=yomigana#GetHira(submatch(0))/
+<
+
+==============================================================================
+INTERFACE					*yomigana-interface*
+
+yomigana#GetKata({文字列})			*yomigana#GetKata()*
+yomigana#GetHira({文字列})			*yomigana#GetHira()*
+
+	文字列の読みをカタカナまたはひらがなで返します
+
+------------------------------------------------------------------------------
+VARIABLES					*yomigana-variables*
+
+`g:yomigana`					*g:yomigana*
+	辞書型です。各種オプションを設定します。
+
+`g:yomigana.default_key_mappings`
+	`false`の場合、デフォルトのキーマッピングをしません
+
+`g:yomigana.mecab`
+	MeCabコマンドの文字列です
+	必要に応じて`/usr/local/bin/mecab`としたりオプションをつけたりしてください
+	vim-yomiganaはMeCabの出力フォーマットは以下を想定しています
+	読みがなを取得できない場合は`-F`オプションで調節してください
+>
+	読み<Tab>*,*,*,*,*,*,*,よみ,*
+	・先頭～<Tab>の前が元の単語
+	・`,`区切りで後ろから2番目(インデックス=`-2`)が読みがな
+
+`g:yomigana.mecab_enc`
+	mecabコマンドのエンコードです
+	WindowでShift-JISを選択した場合は`sjis`を設定してください。
+
+`g:yomigana.yomigana_index` (名前が微妙なので変更するかも…)
+	MeCabの出力フォーマットの読みがなの位置です
+	デフォルトは`-2`(後ろから2番目)です
+
+デフォルト設定値
+>
+	g:yomigana = {
+	  mecab: 'mecab',
+	  mecab_enc: '',
+	  yomigana_index: -2,
+	  default_key_mappings: true
+	}
+<
+
+Windowsの場合
+>
+	g:yomigana = {
+	  mecab: 'cmd /C "%ProgramFiles(x86)%\MeCab\bin\mecab.exe"',
+	  mecab_enc: 'sjis',
+	  yomigana_index: -2,
+	  default_key_mappings: true
+	}
+<
+
+------------------------------------------------------------------------------
+KEY-MAPPINGS					*yomigana-key-mappings*
+
+<Plug>(yomigana-to-kata)			*<Plug>(yomigana-to-kata)*
+	available mode: normal visual
+	default mappings (global):
+		normal:	<Leader>K <Leader>KK
+		visual:	<Leader>K
+	指定範囲をカタカナに置換します
+
+
+<Plug>(yomigana-to-hira)			*<Plug>(yomigana-to-hira)*
+	available mode: normal visual
+	default mappings (global):
+		normal:	<Leader>H <Leader>HH
+		visual:	<Leader>H
+	指定範囲をカタカナに置換します
+
+						*yomigana-default-key-mappings*
+
+default mappings
+normal mode
+{lhs}		{rhs}
+--------	------------------------
+<Leader>H	<Plug>(yomigana-to-hira)
+<Leader>HH	<Plug>(yomigana-to-hira)_
+<Leader>K	<Plug>(yomigana-to-kata)
+<Leader>KK	<Plug>(yomigana-to-kata)_
+
+visual mode
+{lhs}		{rhs}
+--------	------------------------
+<Leader>H	<Plug>(yomigana-to-hira)
+<Leader>K	<Plug>(yomigana-to-kata)
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:
