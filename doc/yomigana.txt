@@ -86,6 +86,7 @@ VARIABLES					*yomigana-variables*
 	読み<Tab>*,*,*,*,*,*,*,よみ,*
 	・先頭～<Tab>の前が元の単語
 	・`,`区切りで後ろから2番目(インデックス=`-2`)が読みがな
+<
 
 `g:yomigana.mecab_enc`
 	mecabコマンドのエンコードです
