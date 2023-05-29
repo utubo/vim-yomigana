@@ -38,7 +38,7 @@ INTRODUCTION					*yomigana-introduction*
 MeCabを利用して漢字をカタカナやひらがなに置換したりするプラグインです
 
 Latest version:
-https://github.com/user/yomigana.vim
+https://github.com/utubo/yomigana.vim
 
 
 ==============================================================================
