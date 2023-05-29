@@ -75,10 +75,10 @@ enddef
 ################
 # オペレーター
 
-def Replace(otype: string, sub: string)
+def Replace(motion: string, sub: string)
   var [sy, sx] = getpos("'[")[1 : 2]
   var [ey, ex] = getpos("']")[1 : 2]
-  if otype ==# 'line'
+  if motion ==# 'line'
     execute $':{sy},{ey}s/.*/{sub}/'
     return
   endif
@@ -95,11 +95,11 @@ def Replace(otype: string, sub: string)
   endfor
 enddef
 
-export def ToKata(otype: string)
-  Replace(otype, '\=yomigana#GetKata(submatch(0))')
+export def ToKata(motion: string)
+  Replace(motion, '\=yomigana#GetKata(submatch(0))')
 enddef
 
-export def ToHira(otype: string)
-  Replace(otype, '\=yomigana#GetHira(submatch(0))')
+export def ToHira(motion: string)
+  Replace(motion, '\=yomigana#GetHira(submatch(0))')
 enddef
 
