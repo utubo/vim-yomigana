@@ -40,7 +40,8 @@ export def GetYomigana(line: string): string
   if v:shell_error !=# 0
     throw $'mecabの実行に失敗しました: `{g:yomigana.mecab}`'
   endif
-  var new_line = []
+  # 元の文字列からmecabの結果の漢字を一つずつ検索してよみがなに置換する
+  var new_line = [] # 最後にjoinで結合する
   var start = 0
   for m in mecab_result->split("\n")
     const csv = m->split(',')
@@ -50,7 +51,9 @@ export def GetYomigana(line: string): string
     const kanji = csv[0]->matchstr('^\S\+')
     const yomi = csv->get(g:yomigana.yomigana_index, '*')
     const p = line->stridx(kanji, start)
-    if p ==# -1 # &enc→sjisの変換で'??'になると見つからない
+    # &enc→sjisの変換で`kanji`が'??'になることがある。
+    # 要はmecab未対応なのでスキップしちゃう。
+    if p ==# -1
       continue
     endif
     new_line += [line->strpart(start, p - start)]
@@ -75,14 +78,14 @@ enddef
 ################
 # オペレーター
 
-def Replace(motion: string, sub: string)
+def Substitute(motion: string, sub: string)
   var [sy, sx] = getpos("'[")[1 : 2]
   var [ey, ex] = getpos("']")[1 : 2]
   if motion ==# 'line'
     execute $':{sy},{ey}s/.*/{sub}/'
     return
   endif
-  # 終了位置はマルチバイトを考慮する必要あり('w'と'iw'で位置が違う)
+  # 終了位置を調整する(調整しないとマルチバイトの時にずれる)
   const endline = getline(ey)
   while 1 < ex && matchstr(endline, $'\%{ex}c.') ==# ''
     ex -= 1
@@ -96,10 +99,10 @@ def Replace(motion: string, sub: string)
 enddef
 
 export def ToKata(motion: string)
-  Replace(motion, '\=yomigana#GetKata(submatch(0))')
+  Substitute(motion, '\=yomigana#GetKata(submatch(0))')
 enddef
 
 export def ToHira(motion: string)
-  Replace(motion, '\=yomigana#GetHira(submatch(0))')
+  Substitute(motion, '\=yomigana#GetHira(submatch(0))')
 enddef
 
