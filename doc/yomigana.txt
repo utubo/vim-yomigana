@@ -1,4 +1,4 @@
-*yomigana.txt*	a summary
+*yomigana.txt*	MeCabを利用して漢字をカタカナやひらがなに置換します
 
 Author  : utubo
 License : MIT license  {{{
