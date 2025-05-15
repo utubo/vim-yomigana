@@ -4,6 +4,8 @@ var default = {
   mecab: 'mecab',
   mecab_enc: '',
   yomigana_index: -2,
+  skkjisyo: ['~/SKK-JISYO.L:EUC-JP', '~/SKK-JISYO.*.utf8:UTF8'],
+  mode: 'mecab',
   default_key_mappings: true
 }
 if has('win32')

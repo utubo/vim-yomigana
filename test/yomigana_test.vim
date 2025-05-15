@@ -23,6 +23,8 @@ def SetUpMeCabMock(result: list<string>)
   g:yomigana.mecab =
     $'read line; echo "$line" > {tmp};' ..
     "echo '" .. result->join("'; echo '") .. "';"
+  g:yomigana.skkjisyo = []
+  g:yomigana.mode = 'mecab'
 enddef
 
 # テスト本体
@@ -73,3 +75,13 @@ suite.TestOperation_line = () => {
   assert.equals(getline(1), 'カンジ,カンジ,カンジ')
 }
 
+suite.TestGetYomiganaWithSkk = () => {
+  writefile([
+    '#このぎょうはこめんと /読/',
+    '>よm /読/',
+  ], tmp)
+  g:yomigana.mode = 'skk'
+  g:yomigana.skkjisyo = [tmp]
+  # '仮名'は辞書にないのでそのまま
+  assert.equals('読み仮名'->yomigana#GetHira(), 'よみ仮名')
+}

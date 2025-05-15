@@ -36,6 +36,7 @@ INTERFACE			|yomigana-interface|
 INTRODUCTION					*yomigana-introduction*
 
 MeCabを利用して漢字をカタカナやひらがなに置換したりするプラグインです
+MeCabを実行できない場合はSKKの辞書を利用して置換を試みます
 
 Latest version:
 https://github.com/utubo/yomigana.vim
@@ -87,7 +88,6 @@ VARIABLES					*yomigana-variables*
 	・先頭～<Tab>の前が元の単語
 	・`,`区切りで後ろから2番目(インデックス=`-2`)が読みがな
 <
-
 `g:yomigana.mecab_enc`
 	mecabコマンドのエンコードです
 	WindowでShift-JISを選択した場合は`sjis`を設定してください。
@@ -96,12 +96,18 @@ VARIABLES					*yomigana-variables*
 	MeCabの出力フォーマットの読みがなの位置です
 	デフォルトは`-2`(後ろから2番目)です
 
+`g:yomigana.skkjisyo`
+	SKK辞書ファイルのパスの配列
+	`ファイル名:文字コード`の形式
+	ワイルドカードは初回起動時に展開します
+
 デフォルト設定値
 >
 	g:yomigana = {
 	  mecab: 'mecab',
 	  mecab_enc: '',
 	  yomigana_index: -2,
+	  skkjisyo: ['~/SKK-JISYO.L:EUC-JP', '~/SKK-JISYO.*.utf8:UTF8'],
 	  default_key_mappings: true
 	}
 <
@@ -112,6 +118,7 @@ Windowsの場合
 	  mecab: 'cmd /C "%ProgramFiles(x86)%\MeCab\bin\mecab.exe"',
 	  mecab_enc: 'sjis',
 	  yomigana_index: -2,
+	  skkjisyo: ['~/SKK-JISYO.L:EUC-JP', '~/SKK-JISYO.*.utf8:UTF8'],
 	  default_key_mappings: true
 	}
 <

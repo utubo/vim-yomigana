@@ -1,9 +1,11 @@
 # vim-yomigana
-MeCabを利用して漢字をカタカナやひらがなに置換したりするプラグインです
+MeCabを利用して漢字をカタカナやひらがなに置換したりするプラグインです  
+MeCabを実行できない場合はSKKの辞書を利用して置換を試みます
 
 ## 必要なもの
 - Vim9 script (TODO: レガシーにも対応したほうがいいかなぁ？)
 - MeCab … パスを通しておいてください
+- SKKの辞書 … MeCabを使わない場合
 
 ## インストール
 .vimrc例  
@@ -75,12 +77,18 @@ WindowでShift-JISを選択した場合は`sjis`を設定してください。
 MeCabの出力フォーマットの読みがなの位置です  
 デフォルトは`-2`(後ろから2番目)です
 
+### `g:yomigana.skkjisyo`
+SKK辞書ファイルのパスの配列
+`ファイル名:文字コード`の形式
+ワイルドカードは初回起動時に展開します
+
 ### デフォルト設定値
 ```vimscript
 g:yomigana = {
   mecab: 'mecab',
   mecab_enc: '',
   yomigana_index: -2,
+  skkjisyo: ['~/SKK-JISYO.L:EUC-JP', '~/SKK-JISYO.*.utf8:UTF8'],
   default_key_mappings: true
 }
 ```
@@ -91,6 +99,7 @@ g:yomigana = {
   mecab: 'cmd /C "%ProgramFiles(x86)%\MeCab\bin\mecab.exe"',
   mecab_enc: 'sjis',
   yomigana_index: -2,
+  skkjisyo: ['~/SKK-JISYO.L:EUC-JP', '~/SKK-JISYO.*.utf8:UTF8'],
   default_key_mappings: true
 }
 ```
