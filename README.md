@@ -70,7 +70,7 @@ vim-yomiganaはMeCabの出力フォーマットは以下を想定しています
 
 ### `g:yomigana.mecab_enc`
 
-mecabコマンドのエンコードです  
+MeCabコマンドのエンコードです  
 WindowでShift-JISを選択した場合は`sjis`を設定してください。
 
 ### `g:yomigana.yomigana_index` (名前が微妙なので変更するかも…)
@@ -89,6 +89,7 @@ g:yomigana = {
   mecab_enc: '',
   yomigana_index: -2,
   skkjisyo: ['~/SKK-JISYO.L:EUC-JP', '~/SKK-JISYO.*.utf8:UTF8'],
+  mode: 'mecab',
   default_key_mappings: true
 }
 ```

@@ -81,8 +81,9 @@ enddef
 ################
 # 本体(skk) {{{
 var jisyo = {}
+var is_skkjisyo_expanded = false
 def GetYomiganaWithSkk(line: string): string
-  if !jisyo
+  if !is_skkjisyo_expanded
     ExpandSkkJisyoPath()
   endif
   var dest = ''
@@ -187,9 +188,16 @@ def ExpandSkkJisyoPath()
     endfor
   endfor
   g:yomigana.skkjisyo = expanded
+  is_skkjisyo_expanded = true
 enddef
 
 def ReadJisyo(path: string): dict<any>
+  try
+    # try vim9skk
+    return vim9skk#ReadJisyo(path)
+  catch
+    # NOP
+  endtry
   # キャッシュ済み
   if jisyo->has_key(path)
     return jisyo[path]
