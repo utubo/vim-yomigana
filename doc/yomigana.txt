@@ -100,8 +100,6 @@ VARIABLES					*yomigana-variables*
 	SKK辞書ファイルのパスの配列
 	`ファイル名:文字コード`の形式
 	ワイルドカードは初回起動時に展開します
-	vim9skkがインストールされている場合はそちらを優先します
-	https://github.com/utubo/vim-vim9skk.vim
 
 デフォルト設定値
 >
